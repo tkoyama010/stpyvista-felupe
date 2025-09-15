@@ -1,6 +1,4 @@
-#!/usr/bin/env python
-"""FElupe Cantilever Beam Example with Streamlit and stpyvista
-============================================================
+"""FElupe Cantilever Beam Example with Streamlit and stpyvista.
 
 Interactive visualization of a cantilever beam under gravity load.
 """
@@ -54,7 +52,11 @@ material_properties = {
 if material_type == "Custom":
     E = st.sidebar.number_input("Young's Modulus E (MPa)", value=206000, min_value=1)
     nu = st.sidebar.number_input(
-        "Poisson's Ratio ν", value=0.3, min_value=0.0, max_value=0.49, step=0.01
+        "Poisson's Ratio v",
+        value=0.3,
+        min_value=0.0,
+        max_value=0.49,
+        step=0.01,
     )
     density = (
         st.sidebar.number_input("Density (kg/m³)", value=7850, min_value=1) * 1e-12
@@ -64,7 +66,7 @@ else:
     E = props["E"]
     nu = props["nu"]
     density = props["density"]
-    st.sidebar.info(f"E = {E} MPa, ν = {nu:.2f}, ρ = {density*1e12:.0f} kg/m³")
+    st.sidebar.info(f"E = {E} MPa, v = {nu:.2f}, p = {density*1e12:.0f} kg/m³")
 
 # Visualization parameters
 st.sidebar.subheader("Visualization")
@@ -132,9 +134,11 @@ if "solved" in st.session_state and st.session_state.solved:
         # FElupe cube mesh uses hexahedron elements
         cells_pv = []
         for cell in cells:
-            cells_pv.extend([8] + list(cell))
+            cells_pv.extend([8, *list(cell)])
         mesh = pv.UnstructuredGrid(
-            cells_pv, [pv.CellType.HEXAHEDRON] * len(cells), points
+            cells_pv,
+            [pv.CellType.HEXAHEDRON] * len(cells),
+            points,
         )
 
         # Add displacement magnitude
@@ -206,7 +210,8 @@ if "solved" in st.session_state and st.session_state.solved:
 
 else:
     st.info(
-        "👈 Configure parameters in the sidebar and click **Solve** to run the simulation."
+        "👈 Configure parameters in the sidebar and click **Solve** to run the "
+        "simulation.",
     )
 
     # Show example image or description
@@ -214,10 +219,11 @@ else:
     ### About this example
 
     This simulation models a cantilever beam:
-    - **Dimensions**: 2000mm × 100mm × 100mm
+    - **Dimensions**: 2000mm x 100mm x 100mm
     - **Boundary Condition**: Fixed at x=0 (left end)
     - **Loading**: Gravity acting downward
     - **Analysis Type**: Linear elastic
 
-    The beam will deflect under its own weight, with maximum displacement at the free end.
+    The beam will deflect under its own weight, with maximum displacement at the
+    free end.
     """)
