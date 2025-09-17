@@ -18,6 +18,11 @@
 |--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | 💬 Community | [![FElupe](https://img.shields.io/badge/%F0%9F%94%8D-FElupe-white)](https://felupe.readthedocs.io) [![Contributor Covenant](https://img.shields.io/badge/contributor%20covenant-2.1-4baaaa.svg)](https://github.com/tkoyama010/stpyvista-felupe/blob/main/CODE_OF_CONDUCT.md) [![GH Discussions](https://img.shields.io/badge/github-discussions%20%F0%9F%92%AC-yellow?logo=github&logoColor=lightgrey)](https://github.com/tkoyama010/stpyvista-felupe/discussions) [![All Contributors](https://img.shields.io/github/all-contributors/tkoyama010/stpyvista-felupe?color=ee8449)](https://stpyvista-felupe.readthedocs.io/en/latest/reference/about.html#contributors)                                                                                                                                                           |
 
+
+<p align="center">
+<img src="./assets/felupe.gif" alt="Screen recording of stpyvista and felupe">
+</p>
+
 ## Contributors ✨
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
