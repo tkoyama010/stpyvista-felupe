@@ -8,6 +8,8 @@ import pyvista as pv
 import streamlit as st
 from stpyvista import stpyvista
 
+pv.start_xvfb()
+
 st.set_page_config(page_title="FElupe Beam Example", layout="wide")
 
 st.title("🏗️ Cantilever Beam Under Gravity")
