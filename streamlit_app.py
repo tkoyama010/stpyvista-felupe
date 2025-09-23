@@ -68,7 +68,7 @@ else:
     E = props["E"]
     nu = props["nu"]
     density = props["density"]
-    st.sidebar.info(f"E = {E} MPa, v = {nu:.2f}, p = {density*1e12:.0f} kg/m³")
+    st.sidebar.info(f"E = {E} MPa, v = {nu:.2f}, p = {density * 1e12:.0f} kg/m³")
 
 # Visualization parameters
 st.sidebar.subheader("Visualization")
