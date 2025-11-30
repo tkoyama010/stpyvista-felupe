@@ -11,8 +11,8 @@ param
 pip
 pyvista<0.45.0
 requests
-stpyvista
 streamlit>=1.45.0
+stpyvista>=0.4.0
 trame
 trame-client
 trame-components
