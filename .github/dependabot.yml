@@ -35,5 +35,5 @@ updates:
       separator: "-"
     reviewers:
       - "tkoyama010"
-     assignees:
+    assignees:
       - "tkoyama010"
