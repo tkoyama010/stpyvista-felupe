@@ -9,9 +9,9 @@ numpy
 panel
 param
 pip
-pyvista<0.45.0
+pyvista<0.48.0
 requests
-stpyvista
+stpyvista>=0.4.0
 streamlit>=1.45.0
 trame
 trame-client

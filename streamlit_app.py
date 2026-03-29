@@ -6,7 +6,7 @@ Interactive visualization of a cantilever beam under gravity load.
 import felupe as fem
 import pyvista as pv
 import streamlit as st
-from stpyvista import stpyvista
+from streamlit_pyvista.trame_viewers.trame_backend import TrameBackend
 
 pv.start_xvfb()
 
@@ -68,7 +68,7 @@ else:
     E = props["E"]
     nu = props["nu"]
     density = props["density"]
-    st.sidebar.info(f"E = {E} MPa, v = {nu:.2f}, p = {density*1e12:.0f} kg/m³")
+    st.sidebar.info(f"E = {E} MPa, v = {nu:.2f}, p = {density * 1e12:.0f} kg/m³")
 
 # Visualization parameters
 st.sidebar.subheader("Visualization")
@@ -178,8 +178,9 @@ if "solved" in st.session_state and st.session_state.solved:
         plotter.view_isometric()
         plotter.add_text(f"Scale Factor: {scale_factor}x", position="upper_left")
 
-        # Display with stpyvista
-        stpyvista(plotter, key="beam_viz")
+        # Display with TrameBackend
+        backend = TrameBackend(plotter, key="beam_viz")
+        backend.show()
 
     with col2:
         st.subheader("📈 Results Summary")
