@@ -1,3 +1,4 @@
+# Copyright (c) 2024-2026 Tetsuo Koyama
 """FElupe Cantilever Beam Example with Streamlit and stpyvista.
 
 Interactive visualization of a cantilever beam under gravity load.
