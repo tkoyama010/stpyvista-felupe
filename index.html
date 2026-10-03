@@ -1,19 +1,28 @@
-# Copyright (c) 2024-2026 Tetsuo Koyama
-"""FElupe Cantilever Beam Example with Streamlit and stpyvista.
-
-Interactive visualization of a cantilever beam under gravity load.
-"""
-
-import sys
-
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>stpyvista + felupe on stlite</title>
+  <meta name="description" content="FElupe Cantilever Beam Example running in-browser with stlite and pyvista-wasm">
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/@stlite/[email protected]/build/stlite.css"
+  />
+</head>
+<body>
+  <div id="root"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@stlite/[email protected]/build/stlite.js"></script>
+  <script>
+    stlite.mount({
+      requirements: ["felupe", "pyvista-wasm"],
+      entrypoint: "streamlit_app.py",
+      files: {
+        "streamlit_app.py": `
 import felupe as fem
-import pyvista as pv
+import pyvista_wasm as pv
 import streamlit as st
-from stpyvista import stpyvista
-
-# stlite (Pyodide/WASM) does not need xvfb
-if "pyodide" not in sys.modules:
-    pv.start_xvfb()
 
 st.set_page_config(page_title="FElupe Beam Example", layout="wide")
 
@@ -128,48 +137,34 @@ if "solved" in st.session_state and st.session_state.solved:
     with col1:
         st.subheader("📊 Visualization")
 
-        # Create PyVista mesh for visualization
+        # Create pyvista-wasm mesh for visualization
         field = st.session_state.field
         region = st.session_state.region
         displacement = st.session_state.displacement
 
         # Get the deformed mesh
         points = region.mesh.points + scale_factor * displacement.values
-        cells = region.mesh.cells
 
-        # Create PyVista unstructured grid
-        # FElupe cube mesh uses hexahedron elements
-        cells_pv = []
-        for cell in cells:
-            cells_pv.extend([8, *list(cell)])
-        mesh = pv.UnstructuredGrid(
-            cells_pv,
-            [pv.CellType.HEXAHEDRON] * len(cells),
-            points,
-        )
+        # Create pyvista-wasm PolyData
+        mesh = pv.PolyData(points=points)
 
         # Add displacement magnitude
         disp_magnitude = (displacement.values**2).sum(axis=1) ** 0.5
         mesh["Displacement Magnitude"] = disp_magnitude
 
         # Create plotter
-        plotter = pv.Plotter(window_size=[800, 600])
+        plotter = pv.Plotter()
         plotter.add_mesh(
             mesh,
             scalars="Displacement Magnitude",
             cmap="coolwarm",
             show_edges=show_edges,
             edge_color="gray",
-            lighting=True,
         )
 
         # Add undeformed shape if requested
         if show_undeformed:
-            mesh_undeformed = pv.UnstructuredGrid(
-                cells_pv,
-                [pv.CellType.HEXAHEDRON] * len(cells),
-                region.mesh.points,
-            )
+            mesh_undeformed = pv.PolyData(points=region.mesh.points)
             plotter.add_mesh(
                 mesh_undeformed,
                 color="gray",
@@ -179,12 +174,12 @@ if "solved" in st.session_state and st.session_state.solved:
             )
 
         # Add axes and set view
-        plotter.show_axes()
+        plotter.add_axes()
         plotter.view_isometric()
-        plotter.add_text(f"Scale Factor: {scale_factor}x", position="upper_left")
+        plotter.background_color = "white"
 
-        # Display with stpyvista
-        stpyvista(plotter, key="beam_viz")
+        # Display with pyvista-wasm Streamlit integration
+        pv.pyvista_chart(plotter, height=600, key="beam_viz")
 
     with col2:
         st.subheader("📈 Results Summary")
@@ -202,7 +197,7 @@ if "solved" in st.session_state and st.session_state.solved:
 
         st.subheader("📐 Model Information")
         st.metric("Number of Nodes", len(region.mesh.points))
-        st.metric("Number of Elements", len(cells))
+        st.metric("Number of Elements", len(region.mesh.cells))
         st.metric("Degrees of Freedom", displacement.values.size)
 
         st.divider()
@@ -234,3 +229,10 @@ else:
     The beam will deflect under its own weight, with maximum displacement at the
     free end.
     """)
+`
+      },
+    },
+    document.getElementById("root"))
+  </script>
+</body>
+</html>
