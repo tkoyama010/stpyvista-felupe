@@ -4,12 +4,16 @@
 Interactive visualization of a cantilever beam under gravity load.
 """
 
+import sys
+
 import felupe as fem
 import pyvista as pv
 import streamlit as st
-from streamlit_pyvista.trame_viewers.trame_backend import TrameBackend
+from stpyvista import stpyvista
 
-pv.start_xvfb()
+# stlite (Pyodide/WASM) does not need xvfb
+if "pyodide" not in sys.modules:
+    pv.start_xvfb()
 
 st.set_page_config(page_title="FElupe Beam Example", layout="wide")
 
@@ -179,9 +183,8 @@ if "solved" in st.session_state and st.session_state.solved:
         plotter.view_isometric()
         plotter.add_text(f"Scale Factor: {scale_factor}x", position="upper_left")
 
-        # Display with TrameBackend
-        backend = TrameBackend(plotter, key="beam_viz")
-        backend.show()
+        # Display with stpyvista
+        stpyvista(plotter, key="beam_viz")
 
     with col2:
         st.subheader("📈 Results Summary")
